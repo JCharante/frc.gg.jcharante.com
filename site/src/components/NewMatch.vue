@@ -1,8 +1,8 @@
 <template>
   <q-item>
     <q-item-section avatar>
-      <q-avatar color="blue" text-color="white" font-size="0.9rem">
-        W
+      <q-avatar :color="protagonistWon ? 'blue' : 'red'" text-color="white">
+        {{ protagonistWon ? 'W' : 'L' }}
       </q-avatar>
     </q-item-section>
 
@@ -122,6 +122,16 @@ export default {
     NewTeamEntry,
   },
   props: ['data', 'protagonist'],
+  computed: {
+    protagonistWon() {
+      let protagonistOnRed = false;
+      protagonistOnRed = this.protagonist === this.data.red0.team ? true : protagonistOnRed;
+      protagonistOnRed = this.protagonist === this.data.red1.team ? true : protagonistOnRed;
+      protagonistOnRed = this.protagonist === this.data.red2.team ? true : protagonistOnRed;
+      return (protagonistOnRed && this.data.winner === 'red')
+              || (!protagonistOnRed && this.data.winner === 'blue');
+    },
+  },
   methods: {
     hasAvatar(team) {
       return team in avatars;
