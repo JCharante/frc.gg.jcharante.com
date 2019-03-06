@@ -21,7 +21,13 @@
                       :emphasize="teamsToHighlight.includes(data.red2.team)"/>
         </div>
         <div class="col-4">
-          stats
+          <p>
+            Win Probability:
+          </p>
+          <h4>
+            {{ data.red_win_probability.toLocaleString("en", {style: "percent"})}} vs
+            {{ data.blue_win_probability.toLocaleString("en", {style: "percent"})}}
+          </h4>
         </div>
         <div class="col-4">
           <p><u>Blue Alliance</u></p>
