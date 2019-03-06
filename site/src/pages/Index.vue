@@ -4,7 +4,10 @@
       <h1>frc.gg</h1>
     </div>
     <div class="row flex flex-center">
-      <p>Ever wanted op.gg but for FRC? No? Well too bad because I already made it.</p>
+      <p>Ever wanted op.gg but for FRC? No? Well too bad because I already made it*</p>
+      <p>
+        *I'm still working on it.
+        If you have any suggestions, send an email to frc.gg@jcharante.com</p>
     </div>
     <div class="q-pa-md" style="width: 100%; max-width: 5000px">
       <q-list bordered separator>

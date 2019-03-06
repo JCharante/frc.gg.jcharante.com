@@ -13,8 +13,6 @@
                  :data="match"
                  :protagonist="parseInt(teamNumber)"/>
     </q-list>
-    <match v-for="match in history"
-           :key="match.key" :data="match" :teams-to-highlight="[parseInt(teamNumber)]"/>
   </q-page>
 </template>
 
@@ -33,14 +31,12 @@
 
 <script>
 import dataset from 'assets/data.json';
-import Match from 'components/Match.vue';
 import NewMatch from '../components/NewMatch';
 
 export default {
   name: 'Team',
   components: {
     NewMatch,
-    Match,
   },
   computed: {
     history() {
@@ -54,10 +50,12 @@ export default {
       return this.dataset.teams
         .filter(team => team.team_number === parseInt(this.teamNumber, 10))[0];
     },
+    teamNumber() {
+      return this.$route.params.team;
+    },
   },
   data() {
     return {
-      teamNumber: this.$route.params.team,
       dataset,
     };
   },

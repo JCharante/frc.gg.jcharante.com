@@ -1,5 +1,8 @@
 <template>
-  <q-item :active="active" active-class="active-team-link">
+  <q-item :active="active"
+          active-class="active-team-link"
+          :to="`/team/${data.team}`"
+          exact>
     <q-item-section avatar>
       <q-avatar square :color="alliance">
         <img :src="getAvatar(data.team)">
