@@ -9,7 +9,10 @@
     <q-item-section>
       <q-item>
         <q-item-section>
-          <q-item-label>Granite State District Event - Finals 2</q-item-label>
+          <q-item-label>{{ eventName }} - {{ matchName }}
+            (<a :href="'https://www.thebluealliance.com/match/' + data.key"
+                target="_blank">view on TBA</a>)
+          </q-item-label>
         </q-item-section>
       </q-item>
 
@@ -114,6 +117,7 @@
 
 <script>
 import avatars from '../assets/avatars.json';
+import extra from '../assets/extra.json';
 import NewTeamEntry from './NewTeamEntry.vue';
 
 export default {
@@ -130,6 +134,15 @@ export default {
       protagonistOnRed = this.protagonist === this.data.red2.team ? true : protagonistOnRed;
       return (protagonistOnRed && this.data.winner === 'red')
               || (!protagonistOnRed && this.data.winner === 'blue');
+    },
+    eventName() {
+      if (this.data.event_code in extra.eventNicknames) {
+        return extra.eventNicknames[this.data.event_code];
+      }
+      return this.data.event_code;
+    },
+    matchName() {
+      return this.data.key.split('_')[1];
     },
   },
   methods: {
