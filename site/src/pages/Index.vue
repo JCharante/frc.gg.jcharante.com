@@ -9,13 +9,18 @@
     <div class="q-pa-md" style="width: 100%; max-width: 5000px">
       <q-list bordered separator>
         <q-item clickable v-ripple v-for="(team, index) in dataset.teams" :key="team.team_number">
+          <q-item-section avatar>
+            <q-avatar color="white" text-color="gray" font-size="0.9rem">
+              #{{ index + 1 }}
+            </q-avatar>
+          </q-item-section>
           <q-item-section avatar v-if="hasAvatar(team.team_number)">
-            <q-avatar square>
+            <q-avatar square color="blue">
               <img :src="getAvatar(team.team_number)">
             </q-avatar>
           </q-item-section>
           <q-item-section>
-            <q-item-label>#{{index + 1}} FRC {{ team.team_number }}</q-item-label>
+            <q-item-label>FRC {{ team.team_number }} - </q-item-label>
             <q-item-label caption>{{ team.rank }}</q-item-label>
           </q-item-section>
         </q-item>

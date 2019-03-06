@@ -34,6 +34,7 @@ module.exports = function (ctx) {
         'QIcon',
         'QList',
         'QItem',
+        'QAvatar',
         'QItemSection',
         'QItemLabel',
         'QCard',
