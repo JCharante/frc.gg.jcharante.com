@@ -2,7 +2,7 @@
   <q-page>
     <q-item>
       <q-item-section avatar>
-        <q-avatar square color="red">
+        <q-avatar square color="blue">
           <img :src="getAvatar(teamNumber)">
         </q-avatar>
       </q-item-section>
