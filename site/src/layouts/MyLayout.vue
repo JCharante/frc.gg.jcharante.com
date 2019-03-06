@@ -32,6 +32,11 @@
             <q-item-label>Home</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable tag="a" to="/explain" exact>
+          <q-item-section>
+            <q-item-label>Ranking System</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
