@@ -8,7 +8,12 @@
     </div>
     <div class="q-pa-md" style="width: 100%; max-width: 5000px">
       <q-list bordered separator>
-        <q-item clickable v-ripple v-for="(team, index) in dataset.teams" :key="team.team_number">
+        <q-item clickable
+                v-ripple
+                v-for="(team, index) in dataset.teams"
+                :key="team.team_number"
+                :to="`/team/${team.team_number}`"
+                exact>
           <q-item-section avatar>
             <q-avatar color="white" text-color="gray" font-size="0.9rem">
               #{{ index + 1 }}
