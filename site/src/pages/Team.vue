@@ -1,12 +1,18 @@
 <template>
   <q-page>
-    <div class="row">
-        <p class="team-title">Team {{ teamNumber }} - {{ teamInfo.nickname }}</p>
-    </div>
+    <q-item>
+      <q-item-section avatar>
+        <q-avatar square color="red">
+          <img :src="getAvatar(teamNumber)">
+        </q-avatar>
+      </q-item-section>
+      <q-item-section>
+        <h5>Team {{ teamNumber }} - {{ teamInfo.nickname }}</h5>
+      </q-item-section>
+    </q-item>
     <div class="row">
       <p class="team-rank">Current Rank: {{ currentRank }}</p>
     </div>
-    <hr>
     <q-list bordered separator>
       <new-match v-for="match in history"
                  :key="match.key"
@@ -30,6 +36,7 @@
 </style>
 
 <script>
+import avatars from 'assets/avatars.json';
 import dataset from 'assets/data.json';
 import NewMatch from '../components/NewMatch';
 
@@ -52,6 +59,14 @@ export default {
     },
     teamNumber() {
       return this.$route.params.team;
+    },
+  },
+  methods: {
+    hasAvatar(team) {
+      return team in avatars;
+    },
+    getAvatar(team) {
+      return avatars[team];
     },
   },
   data() {
