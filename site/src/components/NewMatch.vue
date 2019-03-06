@@ -5,96 +5,98 @@
         W
       </q-avatar>
     </q-item-section>
+
     <q-item-section>
       <q-item>
         <q-item-section>
           <q-item-label>Granite State District Event - Finals 2</q-item-label>
         </q-item-section>
       </q-item>
+
       <q-item>
-        <q-item-section>
+        <q-item-section v-if="$q.screen.gt.xs">
           <q-list>
             <q-item>
               <q-item-section>
-                <q-item-label><b>Victory</b> (Red Alliance) (<b>86%</b>)</q-item-label>
+                <q-item-label><b>Victory</b> (Red Alliance)
+                  (<b>{{ data.red_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
+                </q-item-label>
               </q-item-section>
             </q-item>
 
-            <q-item active active-class="active-team-link">
-              <q-item-section avatar>
-                <q-avatar square color="red">
-                  <img :src="getAvatar('5687')">
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>5687 (Master)</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item>
-              <q-item-section avatar>
-                <q-avatar square color="red">
-                  <img :src="getAvatar('1519')">
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>1519 (Grandmaster)</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item>
-              <q-item-section avatar>
-                <q-avatar square color="red">
-                  <img :src="getAvatar('7416')">
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>7416 (Gold II)</q-item-label>
-              </q-item-section>
-            </q-item>
+            <new-team-entry alliance="red"
+                            :data="data.red0"
+                            :active="data.red0.team === protagonist"/>
+            <new-team-entry alliance="red"
+                            :data="data.red1"
+                            :active="data.red1.team === protagonist"/>
+            <new-team-entry alliance="red"
+                            :data="data.red2"
+                            :active="data.red2.team === protagonist"/>
           </q-list>
         </q-item-section>
 
-        <q-item-section>
+        <q-item-section v-if="$q.screen.gt.xs">
           <q-list>
             <q-item>
               <q-item-section>
-                <q-item-label><b>Defeat</b> (Blue Alliance) (<b>14%</b>)</q-item-label>
+                <q-item-label><b>Defeat</b> (Blue Alliance)
+                  (<b>{{ data.blue_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
+                </q-item-label>
               </q-item-section>
             </q-item>
 
-            <q-item active-class="active-team-link">
-              <q-item-section avatar>
-                <q-avatar square color="blue">
-                  <img :src="getAvatar('88')">
-                </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>88 (Diamond IV)</q-item-label>
-              </q-item-section>
-            </q-item>
+            <new-team-entry alliance="blue"
+                            :data="data.blue0"
+                            :active="data.blue0.team === protagonist"/>
+            <new-team-entry alliance="blue"
+                            :data="data.blue1"
+                            :active="data.blue1.team === protagonist"/>
+            <new-team-entry alliance="blue"
+                            :data="data.blue2"
+                            :active="data.blue2.team === protagonist"/>
+          </q-list>
+        </q-item-section>
 
+        <q-item-section v-if="!$q.screen.gt.xs">
+          <q-list>
             <q-item>
-              <q-item-section avatar>
-                <q-avatar square color="blue">
-                  <img :src="getAvatar('4761')">
-                </q-avatar>
-              </q-item-section>
               <q-item-section>
-                <q-item-label>4767 (Diamond III)</q-item-label>
+                <q-item-label><b>Victory</b> (Red Alliance)
+                  (<b>{{ data.red_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
+                </q-item-label>
               </q-item-section>
             </q-item>
 
+            <new-team-entry alliance="red"
+                            :data="data.red0"
+                            :active="data.red0.team === protagonist"/>
+            <new-team-entry alliance="red"
+                            :data="data.red1"
+                            :active="data.red1.team === protagonist"/>
+            <new-team-entry alliance="red"
+                            :data="data.red2"
+                            :active="data.red2.team === protagonist"/>
+          </q-list>
+
+          <q-list>
             <q-item>
-              <q-item-section avatar>
-                <q-avatar square color="blue">
-                  <img :src="getAvatar('1277')">
-                </q-avatar>
-              </q-item-section>
               <q-item-section>
-                <q-item-label>1277 (Gold III)</q-item-label>
+                <q-item-label><b>Defeat</b> (Blue Alliance)
+                  (<b>{{ data.blue_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
+                </q-item-label>
               </q-item-section>
             </q-item>
+
+            <new-team-entry alliance="blue"
+                            :data="data.blue0"
+                            :active="data.blue0.team === protagonist"/>
+            <new-team-entry alliance="blue"
+                            :data="data.blue1"
+                            :active="data.blue1.team === protagonist"/>
+            <new-team-entry alliance="blue"
+                            :data="data.blue2"
+                            :active="data.blue2.team === protagonist"/>
           </q-list>
         </q-item-section>
       </q-item>
@@ -104,9 +106,13 @@
 
 <script>
 import avatars from '../assets/avatars.json';
+import NewTeamEntry from './NewTeamEntry.vue';
 
 export default {
   name: 'NewMatch',
+  components: {
+    NewTeamEntry,
+  },
   props: ['data', 'protagonist'],
   methods: {
     hasAvatar(team) {

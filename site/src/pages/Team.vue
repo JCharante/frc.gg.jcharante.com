@@ -10,6 +10,7 @@
     <q-list bordered separator>
       <new-match v-for="match in history"
                  :key="match.key"
+                 :data="match"
                  :protagonist="parseInt(teamNumber)"/>
     </q-list>
     <match v-for="match in history"
