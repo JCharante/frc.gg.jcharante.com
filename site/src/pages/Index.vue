@@ -10,13 +10,16 @@
       <q-list bordered separator>
         <q-item clickable
                 v-ripple
-                v-for="(team, index) in dataset.teams"
+                v-for="(team, index) in dataset.teams.slice(
+                  (currentPage - 1) * 100,
+                  currentPage * 100
+                )"
                 :key="team.team_number"
                 :to="`/team/${team.team_number}`"
                 exact>
           <q-item-section avatar>
             <q-avatar color="white" text-color="gray" font-size="0.9rem">
-              #{{ index + 1 }}
+              #{{ (currentPage - 1) * 100 + index + 1 }}
             </q-avatar>
           </q-item-section>
           <q-item-section avatar v-if="hasAvatar(team.team_number)">
@@ -25,11 +28,19 @@
             </q-avatar>
           </q-item-section>
           <q-item-section>
-            <q-item-label>FRC {{ team.team_number }} - </q-item-label>
+            <q-item-label>FRC {{ team.team_number }} - {{ team.nickname }}</q-item-label>
             <q-item-label caption>{{ team.rank }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
+      <div class="q-pa-lg flex flex-center">
+        <q-pagination
+          v-model="currentPage"
+          :max="Math.ceil(dataset.teams.length / 100)"
+          :input="true"
+        >
+        </q-pagination>
+      </div>
     </div>
   </q-page>
 </template>
@@ -54,6 +65,7 @@ export default {
   data() {
     return {
       dataset,
+      currentPage: 1,
     };
   },
 };

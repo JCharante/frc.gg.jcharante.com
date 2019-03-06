@@ -40,6 +40,7 @@ module.exports = function (ctx) {
         'QCard',
         'QCardSection',
         'QCardActions',
+        'QPagination',
       ],
 
       directives: [
