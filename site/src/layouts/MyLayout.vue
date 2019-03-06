@@ -43,6 +43,16 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer>
+      <div class="flex flex-center">
+        <p>Made with ❤️ in San Francisco</p>
+      </div>
+      <div class="flex flex-center">
+        <p>Lol not really. All raw match data comes from The Blue Alliance,
+          and the website is made with Quasar Framework.</p>
+      </div>
+    </q-footer>
   </q-layout>
 </template>
 
