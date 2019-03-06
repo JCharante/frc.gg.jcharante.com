@@ -1,14 +1,29 @@
 <template>
   <q-page>
     <div class="row">
-      <p>Looking up info for Team #{{ $route.params.team}}</p>
+        <p class="team-title">Team {{ teamNumber }} - {{ teamInfo.nickname }}</p>
     </div>
-    <h3>Team {{ teamNumber }} - {{ currentRank }}</h3>
+    <div class="row">
+      <p class="team-rank">Current Rank: {{ currentRank }}</p>
+    </div>
     <hr>
     <match v-for="match in history"
            :key="match.key" :data="match" :teams-to-highlight="[parseInt(teamNumber)]"/>
   </q-page>
 </template>
+
+<style scoped>
+  .team-title {
+    margin-left: 20px;
+    font-size: 2em;
+    padding-top: 1em;
+  }
+  .team-rank {
+    margin-left: 20px;
+    font-size: 1.8em;
+    padding-top: 0.2em;
+  }
+</style>
 
 <script>
 import dataset from 'assets/data.json';
@@ -26,6 +41,10 @@ export default {
     currentRank() {
       return this.dataset.teams
         .filter(team => team.team_number === parseInt(this.teamNumber, 10))[0].rank;
+    },
+    teamInfo() {
+      return this.dataset.teams
+        .filter(team => team.team_number === parseInt(this.teamNumber, 10))[0];
     },
   },
   data() {
