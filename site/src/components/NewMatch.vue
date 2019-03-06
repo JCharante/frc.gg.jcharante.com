@@ -18,7 +18,9 @@
           <q-list>
             <q-item>
               <q-item-section>
-                <q-item-label><b>Victory</b> (Red Alliance)
+                <q-item-label>
+                  <b>{{ data.winner === 'red' ? 'Victory' : 'Defeat' }}</b>
+                  (Red Alliance)
                   (<b>{{ data.red_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
                 </q-item-label>
               </q-item-section>
@@ -40,7 +42,9 @@
           <q-list>
             <q-item>
               <q-item-section>
-                <q-item-label><b>Defeat</b> (Blue Alliance)
+                <q-item-label>
+                  <b>{{ data.winner === 'blue' ? 'Victory' : 'Defeat' }}</b>
+                  (Blue Alliance)
                   (<b>{{ data.blue_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
                 </q-item-label>
               </q-item-section>
@@ -62,7 +66,9 @@
           <q-list>
             <q-item>
               <q-item-section>
-                <q-item-label><b>Victory</b> (Red Alliance)
+                <q-item-label>
+                  <b>{{ data.winner === 'red' ? 'Victory' : 'Defeat' }}</b>
+                  (Red Alliance)
                   (<b>{{ data.red_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
                 </q-item-label>
               </q-item-section>
@@ -82,7 +88,9 @@
           <q-list>
             <q-item>
               <q-item-section>
-                <q-item-label><b>Defeat</b> (Blue Alliance)
+                <q-item-label>
+                  <b>{{ data.winner === 'blue' ? 'Victory' : 'Defeat' }}</b>
+                  (Blue Alliance)
                   (<b>{{ data.blue_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
                 </q-item-label>
               </q-item-section>
