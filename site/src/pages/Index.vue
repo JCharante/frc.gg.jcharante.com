@@ -25,14 +25,20 @@
               #{{ (currentPage - 1) * 100 + index + 1 }}
             </q-avatar>
           </q-item-section>
-          <q-item-section avatar v-if="hasAvatar(team.team_number)">
-            <q-avatar square color="blue">
+          <q-item-section avatar>
+            <q-avatar square color="blue" v-if="hasAvatar(team.team_number)">
               <img :src="getAvatar(team.team_number)">
             </q-avatar>
           </q-item-section>
           <q-item-section>
             <q-item-label>FRC {{ team.team_number }} - {{ team.nickname }}</q-item-label>
             <q-item-label caption>{{ team.rank }}</q-item-label>
+            <q-item-label caption v-if="team.rookie_year === 2019">
+              <q-chip outline color="black">Rookie</q-chip>
+            </q-item-label>
+            <q-item-label caption v-if="team.rookie_year === 2018">
+              <q-chip outline color="black">2nd Year</q-chip>
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
