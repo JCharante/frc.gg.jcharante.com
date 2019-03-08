@@ -18,3 +18,7 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+# custom
+src/assets/data.json
+
