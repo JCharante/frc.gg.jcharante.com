@@ -99,6 +99,14 @@ import extra from 'assets/extra.json';
 export default {
   name: 'PageIndex',
   computed: {
+    searchTerm: {
+      get() {
+        return this.$store.state.filter.searchTerm;
+      },
+      set(val) {
+        return this.$store.commit('filter/setSearchTerm', val);
+      },
+    },
     onlyEinsteinTeams: {
       get() {
         return this.$store.state.filter.onlyEinsteinTeams;
@@ -168,7 +176,6 @@ export default {
     return {
       dataset,
       curPage: 1,
-      searchTerm: '',
     };
   },
 };
