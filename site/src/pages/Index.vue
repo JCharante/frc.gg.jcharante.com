@@ -153,7 +153,8 @@ export default {
         }
         if (this.searchTerm !== '') {
           const teamNumberInSearchTerm = team.team_number.toString() === this.searchTerm;
-          const teamNicknameInSearchTerm = team.nickname.includes(this.searchTerm);
+          const teamNicknameInSearchTerm = team.nickname.toLowerCase()
+            .includes(this.searchTerm.toLowerCase());
           qualifies = qualifies && (teamNumberInSearchTerm || teamNicknameInSearchTerm);
         }
         return qualifies;
