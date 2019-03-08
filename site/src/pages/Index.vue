@@ -38,13 +38,14 @@
         <q-list bordered separator>
           <q-item clickable
                   v-ripple
-                  v-for="(team, index) in listOfTeams"
+                  v-for="team in listOfTeams
+                  .slice((this.currentPage - 1) * 100, this.currentPage * 100)"
                   :key="team.team_number"
                   :to="`/team/${team.team_number}`"
                   exact>
             <q-item-section avatar>
               <q-avatar color="white" text-color="gray" font-size="0.9rem">
-                #{{ (currentPage - 1) * 100 + index + 1 }}
+                #{{ team.spot }}
               </q-avatar>
             </q-item-section>
             <q-item-section avatar>
@@ -101,7 +102,7 @@ export default {
       return this.$route.params.pageNum;
     },
     listOfTeams() {
-      const LOT = dataset.teams.slice((this.currentPage - 1) * 100, this.currentPage * 100);
+      const LOT = dataset.teams;
       // optimization
       if (this.searchTerm === '' && !this.onlyRookies && !this.onlyFRCTop25 && !this.onlyEinsteinTeams) {
         return LOT;
@@ -110,6 +111,9 @@ export default {
         let qualifies = true;
         if (this.onlyFRCTop25) {
           qualifies = qualifies && this.teamInTop25(team.team_number);
+        }
+        if (this.onlyRookies) {
+          qualifies = qualifies && team.rookie_year === 2019;
         }
         return qualifies;
       });
