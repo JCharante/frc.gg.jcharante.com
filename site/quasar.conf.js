@@ -26,6 +26,8 @@ module.exports = function (ctx) {
         'QLayout',
         'QHeader',
         'QFooter',
+        'QInput',
+        'QToggle',
         'QDrawer',
         'QPageContainer',
         'QPage',
