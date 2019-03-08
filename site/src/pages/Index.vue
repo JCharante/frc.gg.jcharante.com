@@ -62,12 +62,19 @@
               <q-item-label caption v-if="team.rookie_year === 2018">
                 <q-chip outline color="black">2nd Year</q-chip>
               </q-item-label>
-              <q-item-label caption v-if="teamInTop25(team.team_number)">
-                <q-chip v-for="(value, key) in getTop25Info(team.team_number)"
-                        :key="key"
-                        color="orange">
-                  {{ key === 'week1' ? 'FRC Top 25 Week One' : key }}
-                  #{{ value }}
+              <q-item-label caption
+                            v-if="teamInTop25(team.team_number)
+                            || isEinsteinTeam(team.team_number)">
+                <template v-if="teamInTop25(team.team_number)">
+                  <q-chip v-for="(value, key) in getTop25Info(team.team_number)"
+                          :key="key"
+                          color="orange">
+                    {{ key === 'week1' ? 'FRC Top 25 Week One' : key }}
+                    #{{ value }}
+                  </q-chip>
+                </template>
+                <q-chip v-if="isEinsteinTeam(team.team_number)" color="green">
+                  Einstein Team
                 </q-chip>
               </q-item-label>
             </q-item-section>
