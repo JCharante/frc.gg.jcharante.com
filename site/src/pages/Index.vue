@@ -151,6 +151,11 @@ export default {
         if (this.onlyEinsteinTeams) {
           qualifies = qualifies && this.isEinsteinTeam(team.team_number);
         }
+        if (this.searchTerm !== '') {
+          const teamNumberInSearchTerm = team.team_number.toString() === this.searchTerm;
+          const teamNicknameInSearchTerm = team.nickname.includes(this.searchTerm);
+          qualifies = qualifies && (teamNumberInSearchTerm || teamNicknameInSearchTerm);
+        }
         return qualifies;
       });
     },
