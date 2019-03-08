@@ -13,6 +13,9 @@
     <div class="row">
       <p class="team-rank">Current Rank: {{ currentRank }}</p>
     </div>
+    <div class="row justify-center">
+      <div id="chartContainer" style="height: 360px; width: 80%;"></div>
+    </div>
     <q-list bordered separator>
       <new-match v-for="match in history"
                  :key="match.key"
@@ -40,6 +43,8 @@ import avatars from 'assets/avatars.json';
 import dataset from 'assets/data.json';
 import NewMatch from '../components/NewMatch';
 
+const CanvasJS = require('../../node_modules/canvasjs/dist/canvasjs.min.js');
+
 export default {
   name: 'Team',
   components: {
@@ -60,6 +65,45 @@ export default {
     teamNumber() {
       return this.$route.params.team;
     },
+    chartTitle() {
+      return 'Ranking over Time';
+    },
+    chartDataPoints() {
+      const ret = [];
+      let lastRanking = '';
+      this.dataset.team_history[this.teamNumber].forEach((match, i) => {
+        let protagonist = null;
+        if (match.red0.team === parseInt(this.teamNumber, 10)) {
+          protagonist = match.red0;
+        }
+        if (match.red1.team === parseInt(this.teamNumber, 10)) {
+          protagonist = match.red1;
+        }
+        if (match.red2.team === parseInt(this.teamNumber, 10)) {
+          protagonist = match.red2;
+        }
+        if (match.blue0.team === parseInt(this.teamNumber, 10)) {
+          protagonist = match.blue0;
+        }
+        if (match.blue1.team === parseInt(this.teamNumber, 10)) {
+          protagonist = match.blue1;
+        }
+        if (match.blue2.team === parseInt(this.teamNumber, 10)) {
+          protagonist = match.blue2;
+        }
+        console.log(protagonist);
+        const objBeingPushed = {
+          x: i + 1,
+          y: protagonist.newMu,
+        };
+        if (protagonist.newRank !== lastRanking) {
+          lastRanking = protagonist.newRank;
+          objBeingPushed.indexLabel = this.shortenTitle(protagonist.newRank);
+        }
+        ret.push(objBeingPushed);
+      });
+      return ret;
+    },
   },
   methods: {
     hasAvatar(team) {
@@ -68,11 +112,83 @@ export default {
     getAvatar(team) {
       return avatars[team];
     },
+    shortenTitle(title) {
+      if (title === 'Challenger') {
+        return title;
+      }
+      if (title === 'Grandmaster') {
+        return 'GM';
+      }
+      if (title === 'Master') {
+        return 'M';
+      }
+      const firstWord = title.split(' ')[0];
+      const secondWord = title.split(' ')[1];
+      let newTitle = '';
+      switch (firstWord) {
+        case 'Iron':
+          newTitle = 'I';
+          break;
+        case 'Silver':
+          newTitle = 'S';
+          break;
+        case 'Gold':
+          newTitle = 'G';
+          break;
+        case 'Platinum':
+          newTitle = 'P';
+          break;
+        case 'Diamond':
+          newTitle = 'D';
+          break;
+        default:
+          newTitle = firstWord;
+      }
+      newTitle += secondWord;
+      return newTitle;
+    },
   },
   data() {
     return {
       dataset,
+      chart: null,
     };
+  },
+  watch: {
+    $route() {
+      this.chart = new CanvasJS.Chart('chartContainer', {
+        title: {
+          text: this.chartTitle,
+        },
+        axisY: {
+          includeZero: false,
+        },
+        data: [
+          {
+            type: 'line',
+            dataPoints: this.chartDataPoints,
+          },
+        ],
+      });
+      this.chart.render();
+    },
+  },
+  mounted() {
+    this.chart = new CanvasJS.Chart('chartContainer', {
+      title: {
+        text: this.chartTitle,
+      },
+      axisY: {
+        includeZero: false,
+      },
+      data: [
+        {
+          type: 'line',
+          dataPoints: this.chartDataPoints,
+        },
+      ],
+    });
+    this.chart.render();
   },
 };
 </script>
