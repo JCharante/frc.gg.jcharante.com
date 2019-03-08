@@ -144,7 +144,22 @@ export default {
         default:
           newTitle = firstWord;
       }
-      newTitle += secondWord;
+      switch (secondWord) {
+        case 'I':
+          newTitle += '1';
+          break;
+        case 'II':
+          newTitle += '2';
+          break;
+        case 'III':
+          newTitle += '3';
+          break;
+        case 'IV':
+          newTitle += '4';
+          break;
+        default:
+          newTitle += secondWord;
+      }
       return newTitle;
     },
   },
