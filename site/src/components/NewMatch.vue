@@ -1,7 +1,13 @@
 <template>
   <q-item>
     <q-item-section avatar>
-      <q-avatar :color="matchOutcome === 'Tie'
+      <q-avatar color="purple"
+                text-color="white"
+                v-if="isScheduledMatch">
+        {{ matchOutcome === 'Tie' ? 'T' : (matchOutcome === 'Victory' ? 'W' : 'L') }}
+      </q-avatar>
+      <q-avatar v-else
+                :color="matchOutcome === 'Tie'
                         ? 'grey'
                         : (
                             matchOutcome === 'Victory'
@@ -28,7 +34,8 @@
             <q-item>
               <q-item-section>
                 <q-item-label>
-                  <b>{{ data.winner === 'red' ? 'Victory' : 'Defeat' }}</b>
+                  <b v-if="!isScheduledMatch">
+                    {{ data.winner === 'red' ? 'Victory' : 'Defeat' }}</b>
                   (Red Alliance)
                   (<b>{{ data.red_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
                 </q-item-label>
@@ -52,7 +59,8 @@
             <q-item>
               <q-item-section>
                 <q-item-label>
-                  <b>{{ data.winner === 'blue' ? 'Victory' : 'Defeat' }}</b>
+                  <b v-if="!isScheduledMatch">
+                    {{ data.winner === 'blue' ? 'Victory' : 'Defeat' }}</b>
                   (Blue Alliance)
                   (<b>{{ data.blue_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
                 </q-item-label>
@@ -145,13 +153,23 @@ export default {
        || this.data.blue2.team === this.protagonist) {
         protagonistTeam = 'blue';
       }
-      if (this.data.winner === '') {
-        return 'Tie';
+      if (this.data.status === 'completed') {
+        if (this.data.winner === '') {
+          return 'Tie';
+        }
+        if (this.data.winner === protagonistTeam) {
+          return 'Victory';
+        }
+        return 'Defeat';
       }
-      if (this.data.winner === protagonistTeam) {
-        return 'Victory';
+      // Match is in the future, must predict
+      if (this.data.red_win_probability > this.data.blue_win_probability) {
+        return protagonistTeam === 'red' ? 'Victory' : 'Defeat';
       }
-      return 'Defeat';
+      if (this.data.blue_win_probability > this.data.red_win_probability) {
+        return protagonistTeam === 'blue' ? 'Victory' : 'Defeat';
+      }
+      return 'Tie';
     },
     protagonistWon() {
       let protagonistOnRed = false;
@@ -169,6 +187,9 @@ export default {
     },
     matchName() {
       return this.data.key.split('_')[1];
+    },
+    isScheduledMatch() {
+      return this.data.status === 'scheduled';
     },
   },
   methods: {

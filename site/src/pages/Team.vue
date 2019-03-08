@@ -84,7 +84,9 @@ export default {
     chartDataPoints() {
       const ret = [];
       let lastRanking = '';
-      this.dataset.team_history[this.teamNumber].forEach((match, i) => {
+      this.dataset.team_history[this.teamNumber].filter(
+        match => match.status === 'completed',
+      ).forEach((match, i) => {
         let protagonist = null;
         if (match.red0.team === parseInt(this.teamNumber, 10)) {
           protagonist = match.red0;

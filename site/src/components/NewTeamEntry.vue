@@ -11,11 +11,16 @@
     <q-item-section>
       <q-item-label>
         {{ data.team }}
+        <span v-if="`currentRank` in data">
+          ({{ data.currentRank }})
+        </span>
+        <span v-else>
         {{
           data.newRank !== data.oldRank ?
             `(${data.newRank} from ${data.oldRank})` :
             `(${data.newRank})`
         }}
+        </span>
       </q-item-label>
     </q-item-section>
   </q-item>
