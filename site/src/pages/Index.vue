@@ -93,6 +93,7 @@
 <script>
 import dataset from 'assets/data.json';
 import avatars from 'assets/avatars.json';
+import einstein from 'assets/einstein.json';
 import extra from 'assets/extra.json';
 
 export default {
@@ -115,6 +116,9 @@ export default {
         if (this.onlyRookies) {
           qualifies = qualifies && team.rookie_year === 2019;
         }
+        if (this.onlyEinsteinTeams) {
+          qualifies = qualifies && this.isEinsteinTeam(team.team_number);
+        }
         return qualifies;
       });
     },
@@ -131,6 +135,9 @@ export default {
     },
     getTop25Info(team) {
       return extra.top25[team];
+    },
+    isEinsteinTeam(team) {
+      return einstein.allTeams.includes(team);
     },
   },
   data() {
