@@ -1,8 +1,14 @@
 <template>
   <q-item>
     <q-item-section avatar>
-      <q-avatar :color="protagonistWon ? 'blue' : 'red'" text-color="white">
-        {{ protagonistWon ? 'W' : 'L' }}
+      <q-avatar :color="matchOutcome === 'Tie'
+                        ? 'grey'
+                        : (
+                            matchOutcome === 'Victory'
+                            ? 'blue'
+                            : 'red')"
+                text-color="white">
+        {{ matchOutcome === 'Tie' ? 'T' : (matchOutcome === 'Victory' ? 'W' : 'L') }}
       </q-avatar>
     </q-item-section>
 
@@ -127,6 +133,26 @@ export default {
   },
   props: ['data', 'protagonist'],
   computed: {
+    matchOutcome() {
+      let protagonistTeam = null;
+      if (this.data.red0.team === this.protagonist
+       || this.data.red1.team === this.protagonist
+       || this.data.red2.team === this.protagonist) {
+        protagonistTeam = 'red';
+      }
+      if (this.data.blue0.team === this.protagonist
+       || this.data.blue1.team === this.protagonist
+       || this.data.blue2.team === this.protagonist) {
+        protagonistTeam = 'blue';
+      }
+      if (this.data.winner === '') {
+        return 'Tie';
+      }
+      if (this.data.winner === protagonistTeam) {
+        return 'Victory';
+      }
+      return 'Defeat';
+    },
     protagonistWon() {
       let protagonistOnRed = false;
       protagonistOnRed = this.protagonist === this.data.red0.team ? true : protagonistOnRed;
