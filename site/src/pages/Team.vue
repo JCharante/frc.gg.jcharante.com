@@ -143,6 +143,9 @@ export default {
         case 'Iron':
           newTitle = 'I';
           break;
+        case 'Bronze':
+          newTitle = 'B';
+          break;
         case 'Silver':
           newTitle = 'S';
           break;
