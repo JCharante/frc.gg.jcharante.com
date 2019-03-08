@@ -99,6 +99,30 @@ import extra from 'assets/extra.json';
 export default {
   name: 'PageIndex',
   computed: {
+    onlyEinsteinTeams: {
+      get() {
+        return this.$store.state.filter.onlyEinsteinTeams;
+      },
+      set(val) {
+        return this.$store.commit('filter/setOnlyEinsteinTeams', val);
+      },
+    },
+    onlyFRCTop25: {
+      get() {
+        return this.$store.state.filter.onlyFRCTop25;
+      },
+      set(val) {
+        return this.$store.commit('filter/setOnlyFRCTop25', val);
+      },
+    },
+    onlyRookies: {
+      get() {
+        return this.$store.state.filter.onlyRookies;
+      },
+      set(val) {
+        return this.$store.commit('filter/setOnlyRookies', val);
+      },
+    },
     currentPage() {
       return this.$route.params.pageNum;
     },
@@ -145,9 +169,6 @@ export default {
       dataset,
       curPage: 1,
       searchTerm: '',
-      onlyRookies: false,
-      onlyFRCTop25: false,
-      onlyEinsteinTeams: false,
     };
   },
 };
