@@ -188,7 +188,7 @@ export default {
   data() {
     return {
       dataset,
-      curPage: this.$route.params.pageNum,
+      curPage: parseInt(this.$route.params.pageNum, 10),
     };
   },
 };
