@@ -39,6 +39,14 @@
             <q-item-label caption v-if="team.rookie_year === 2018">
               <q-chip outline color="black">2nd Year</q-chip>
             </q-item-label>
+            <q-item-label caption v-if="teamInTop25(team.team_number)">
+              <q-chip v-for="(value, key) in getTop25Info(team.team_number)"
+                      :key="key"
+                      color="orange">
+                {{ key === 'week1' ? 'FRC Top 25 Week One' : key }}
+                #{{ value }}
+              </q-chip>
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -60,6 +68,7 @@
 <script>
 import dataset from 'assets/data.json';
 import avatars from 'assets/avatars.json';
+import extra from 'assets/extra.json';
 
 export default {
   name: 'PageIndex',
@@ -69,6 +78,12 @@ export default {
     },
     getAvatar(team) {
       return avatars[team];
+    },
+    teamInTop25(team) {
+      return team in extra.top25;
+    },
+    getTop25Info(team) {
+      return extra.top25[team];
     },
   },
   data() {
