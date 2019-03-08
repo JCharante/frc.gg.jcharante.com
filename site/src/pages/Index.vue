@@ -38,10 +38,7 @@
         <q-list bordered separator>
           <q-item clickable
                   v-ripple
-                  v-for="(team, index) in dataset.teams.slice(
-                  (currentPage - 1) * 100,
-                  currentPage * 100
-                )"
+                  v-for="(team, index) in listOfTeams"
                   :key="team.team_number"
                   :to="`/team/${team.team_number}`"
                   exact>
@@ -102,6 +99,20 @@ export default {
   computed: {
     currentPage() {
       return this.$route.params.pageNum;
+    },
+    listOfTeams() {
+      const LOT = dataset.teams.slice((this.currentPage - 1) * 100, this.currentPage * 100);
+      // optimization
+      if (this.searchTerm === '' && !this.onlyRookies && !this.onlyFRCTop25 && !this.onlyEinsteinTeams) {
+        return LOT;
+      }
+      return LOT.filter((team) => {
+        let qualifies = true;
+        if (this.onlyFRCTop25) {
+          qualifies = qualifies && this.teamInTop25(team.team_number);
+        }
+        return qualifies;
+      });
     },
   },
   methods: {
