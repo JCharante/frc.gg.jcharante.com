@@ -13,6 +13,13 @@
     <div class="row">
       <p class="team-rank">Current Rank: {{ currentRank }}</p>
     </div>
+    <div class="row">
+      <p class="team-tba-link">
+        <a :href="teamTBALink" target="_blank">
+          View Team on The Blue Alliance
+        </a>
+      </p>
+    </div>
     <div class="row justify-center">
       <div id="chartContainer" style="height: 360px; width: 80%;"></div>
     </div>
@@ -31,10 +38,13 @@
     font-size: 2em;
     padding-top: 1em;
   }
+  .team-tba-link {
+    margin-left: 20px;
+  }
   .team-rank {
     margin-left: 20px;
     font-size: 1.8em;
-    padding-top: 0.2em;
+    padding-top: 0;
   }
 </style>
 
@@ -61,6 +71,9 @@ export default {
     teamInfo() {
       return this.dataset.teams
         .filter(team => team.team_number === parseInt(this.teamNumber, 10))[0];
+    },
+    teamTBALink() {
+      return `https://thebluealliance.com/team/${this.teamNumber}`;
     },
     teamNumber() {
       return this.$route.params.team;
