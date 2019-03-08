@@ -104,7 +104,6 @@ export default {
         if (match.blue2.team === parseInt(this.teamNumber, 10)) {
           protagonist = match.blue2;
         }
-        console.log(protagonist);
         const objBeingPushed = {
           x: i + 1,
           y: protagonist.newMu,
