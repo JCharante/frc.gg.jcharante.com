@@ -74,7 +74,7 @@
                   </q-chip>
                 </template>
                 <q-chip v-if="isEinsteinTeam(team.team_number)" color="green">
-                  Einstein Team
+                  Einstein ({{ getMostRecentYearOnEinstein(team.team_number) }})
                 </q-chip>
               </q-item-label>
             </q-item-section>
@@ -182,7 +182,10 @@ export default {
       return extra.top25[team];
     },
     isEinsteinTeam(team) {
-      return einstein.allTeams.includes(team);
+      return team in einstein.teamAndYears;
+    },
+    getMostRecentYearOnEinstein(team) {
+      return einstein.teamAndYears[team] || 0;
     },
   },
   data() {
