@@ -23,6 +23,7 @@
       Finally, the script exports all its data into a JSON file, and that JSON file is included with
     this Single Page Application. This website is a Single Page Application because
     I don't want to have to bother with anything more complicated than a static site.</p>
+    <img src="assets/rank_distribution.png" style="width: 100%"/>
   </q-page>
 </template>
 
