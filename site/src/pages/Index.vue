@@ -52,8 +52,9 @@
       </q-list>
       <div class="q-pa-lg flex flex-center">
         <q-pagination
-          v-model="currentPage"
+          v-model="curPage"
           :max="Math.ceil(dataset.teams.length / 100)"
+          @input="$router.push(`/home/${curPage}`)"
           :input="true"
         >
         </q-pagination>
@@ -72,6 +73,11 @@ import extra from 'assets/extra.json';
 
 export default {
   name: 'PageIndex',
+  computed: {
+    currentPage() {
+      return this.$route.params.pageNum;
+    },
+  },
   methods: {
     hasAvatar(team) {
       return team in avatars;
@@ -89,7 +95,7 @@ export default {
   data() {
     return {
       dataset,
-      currentPage: 1,
+      curPage: 1,
     };
   },
 };

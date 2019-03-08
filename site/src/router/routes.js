@@ -4,7 +4,8 @@ const routes = [
     path: '/',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
+      { path: '', redirect: '/home/1' },
+      { path: '/home/:pageNum', component: () => import('pages/Index.vue') },
       { path: '/explain', component: () => import('pages/RankingSystem.vue') },
       { path: '/team/:team', component: () => import('pages/Team.vue') },
     ],
