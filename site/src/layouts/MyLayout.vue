@@ -37,6 +37,13 @@
             <q-item-label>Ranking System</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable
+                @click="openURL('https://youtube.com/PewDiePie')">
+          <q-item-section>
+            <q-item-label>Subscribe to PewDiePie</q-item-label>
+            <q-item-label caption>Do your part!</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
