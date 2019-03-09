@@ -4,6 +4,12 @@
       <div class="row flex flex-center">
         <h1>frc.gg</h1>
       </div>
+      <div class="row justify-center">
+        <p>Processed
+          {{ dataset.numMatchesProcessed}} /
+          {{ dataset.numMatchesProcessed + dataset.numMatchesPredicting }}
+          Matches. Predicting {{ dataset.numMatchesPredicting }} Matches.</p>
+      </div>
       <div class="row flex flex-center">
         <p>Ever wanted op.gg but for FRC? No?
           Oh, well I already started on it so you might as well take a look.</p>
