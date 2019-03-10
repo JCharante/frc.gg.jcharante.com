@@ -61,8 +61,11 @@ export default {
     NewMatch,
   },
   computed: {
+    teamHistory() {
+      return this.dataset.team_history[this.teamNumber].map(key => this.dataset.matchesDict[key]);
+    },
     history() {
-      return this.dataset.team_history[this.teamNumber].slice().reverse();
+      return this.teamHistory.slice().reverse();
     },
     currentRank() {
       return this.dataset.teams
@@ -84,7 +87,7 @@ export default {
     chartDataPoints() {
       const ret = [];
       let lastRanking = '';
-      this.dataset.team_history[this.teamNumber].filter(
+      this.teamHistory.filter(
         match => match.status === 'completed',
       ).forEach((match, i) => {
         let protagonist = null;
