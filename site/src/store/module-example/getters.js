@@ -13,3 +13,7 @@ export function onlyRookies(state) {
 export function searchTerm(state) {
   return state.searchTerm;
 }
+
+export function onlyWeekTwoTeams(state) {
+  return state.onlyWeekTwoTeams;
+}

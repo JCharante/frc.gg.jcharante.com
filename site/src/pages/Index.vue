@@ -42,6 +42,11 @@
           color="green"
           label="Only Einstein Teams"
         />
+        <q-toggle
+          v-model="onlyWeekTwoTeams"
+          color="green"
+          label="Only Week Two Teams"
+        />
       </div>
       <div class="q-pa-md" style="width: 100%; max-width: 5000px">
         <q-list bordered separator>
@@ -111,6 +116,7 @@ import dataset from 'assets/data.json';
 import avatars from 'assets/avatars.json';
 import einstein from 'assets/einstein.json';
 import extra from 'assets/extra.json';
+import weeks from 'assets/weeks.json';
 
 export default {
   name: 'PageIndex',
@@ -147,13 +153,25 @@ export default {
         return this.$store.commit('filter/setOnlyRookies', val);
       },
     },
+    onlyWeekTwoTeams: {
+      get() {
+        return this.$store.state.filter.onlyWeekTwoTeams;
+      },
+      set(val) {
+        return this.$store.commit('filter/setOnlyWeekTwoTeams', val);
+      },
+    },
     currentPage() {
       return this.$route.params.pageNum;
     },
     listOfTeams() {
       const LOT = dataset.teams;
       // optimization
-      if (this.searchTerm === '' && !this.onlyRookies && !this.onlyFRCTop25 && !this.onlyEinsteinTeams) {
+      if (this.searchTerm === ''
+        && !this.onlyRookies
+        && !this.onlyFRCTop25
+        && !this.onlyWeekTwoTeams
+        && !this.onlyEinsteinTeams) {
         return LOT;
       }
       return LOT.filter((team) => {
@@ -166,6 +184,9 @@ export default {
         }
         if (this.onlyEinsteinTeams) {
           qualifies = qualifies && this.isEinsteinTeam(team.team_number);
+        }
+        if (this.onlyWeekTwoTeams) {
+          qualifies = qualifies && this.teamCompetedInWeekTwo(team.team_number);
         }
         if (this.searchTerm !== '') {
           const teamNumberInSearchTerm = team.team_number.toString() === this.searchTerm;
@@ -195,6 +216,22 @@ export default {
     },
     getMostRecentYearOnEinstein(team) {
       return einstein.teamAndYears[team] || 0;
+    },
+    teamWasAtEvent(teamNum, event) {
+      return event in this.dataset.teams
+        .filter(team => team.team_number === teamNum)[0]
+        .eventsAttended;
+    },
+    teamCompetedInWeekTwo(teamNum) {
+      const teamInfo = this.dataset.teams
+        .filter(team => team.team_number === teamNum)[0];
+      let ret = false;
+      teamInfo.eventsAttended.forEach((eventCode) => {
+        if (weeks.week2.includes(eventCode)) {
+          ret = true;
+        }
+      });
+      return ret;
     },
   },
   data() {
