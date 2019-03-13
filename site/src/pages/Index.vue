@@ -83,7 +83,11 @@
                   <q-chip v-for="(value, key) in getTop25Info(team.team_number)"
                           :key="key"
                           color="orange">
-                    {{ key === 'week1' ? 'FRC Top 25 Week One' : key }}
+                    {{ key === 'week1'
+                    ? 'FRC Top 25 Week One'
+                    : (key === 'week2')
+                    ? 'FRC Top 25 Week Two'
+                    : key}}
                     #{{ value }}
                   </q-chip>
                 </template>
