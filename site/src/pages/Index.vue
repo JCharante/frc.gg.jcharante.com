@@ -11,7 +11,7 @@
           Matches. Predicting {{ dataset.numMatchesPredicting }} Matches.</p>
       </div>
       <div class="row justify-center">
-        <p>Data as of {{ dataset.asOf || "unknown" }}</p>
+        <p>Data as of {{ dataset.asOf || "unknown" }} EDT</p>
       </div>
       <div class="row flex flex-center">
         <p>Ever wanted op.gg but for FRC? No?
