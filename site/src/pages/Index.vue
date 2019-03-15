@@ -69,7 +69,10 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>FRC {{ team.team_number }} - {{ team.nickname }}</q-item-label>
-              <q-item-label caption>{{ team.rank }}</q-item-label>
+              <q-item-label caption>
+                {{ team.rank }} || {{ getWinLossTieString(team.team_number) }} ||
+                Played with {{ getTeamStats(team.team_number).uniqueTeams }} Teams
+              </q-item-label>
               <q-item-label caption v-if="team.rookie_year === 2019">
                 <q-chip outline color="black">Rookie</q-chip>
               </q-item-label>
@@ -78,7 +81,8 @@
               </q-item-label>
               <q-item-label caption
                             v-if="teamInTop25(team.team_number)
-                            || isEinsteinTeam(team.team_number)">
+                            || isEinsteinTeam(team.team_number)
+                            || teamIsUndefeated(team.team_number)">
                 <template v-if="teamInTop25(team.team_number)">
                   <q-chip v-for="(value, key) in getTop25Info(team.team_number)"
                           :key="key"
@@ -93,6 +97,13 @@
                 </template>
                 <q-chip v-if="isEinsteinTeam(team.team_number)" color="green">
                   Einstein ({{ getMostRecentYearOnEinstein(team.team_number) }})
+                </q-chip>
+                <q-chip v-if="teamIsUndefeated(team.team_number)"
+                        outline
+                        square
+                        icon="send"
+                        color="purple">
+                  UNDEFEATED
                 </q-chip>
               </q-item-label>
             </q-item-section>
@@ -218,8 +229,60 @@ export default {
     isEinsteinTeam(team) {
       return team in einstein.teamAndYears;
     },
+    teamIsUndefeated(team) {
+      const stats = this.getTeamStats(team);
+      return stats.losses === 0 && (stats.wins + stats.ties) > 0;
+    },
     getMostRecentYearOnEinstein(team) {
       return einstein.teamAndYears[team] || 0;
+    },
+    getWinLossTieString(team) {
+      return `${this.getTeamStats(team).wins}/${this.getTeamStats(team).losses}/${this.getTeamStats(team).ties}`;
+    },
+    getTeamStats(team) {
+      if (team in this.teamStatsCache) {
+        return this.teamStatsCache[team];
+      }
+      let wins = 0;
+      let losses = 0;
+      let ties = 0;
+      const uniqueTeams = [];
+      this.dataset.team_history[team]
+        .map(key => this.dataset.matchesDict[key])
+        .filter(match => match.status === 'completed')
+        .forEach((match) => {
+          let protagonistTeam = null;
+          if (match.red0.team === team || match.red1.team === team || match.red2.team === team) {
+            protagonistTeam = 'red';
+          }
+          if (match.blue0.team === team || match.blue1.team === team || match.blue2.team === team) {
+            protagonistTeam = 'blue';
+          }
+          if (match.status === 'completed') {
+            if (match.winner === '') {
+              ties += 1;
+            } else if (match.winner === protagonistTeam) {
+              wins += 1;
+            } else {
+              losses += 1;
+            }
+          }
+          [match.red0, match.red1, match.red2, match.blue0, match.blue1, match.blue2]
+            .filter(t => t.team !== team)
+            .forEach((t) => {
+              if (!uniqueTeams.includes(t.team)) {
+                uniqueTeams.push(t.team);
+              }
+            });
+        });
+      const ret = {
+        uniqueTeams: uniqueTeams.length,
+        wins,
+        losses,
+        ties,
+      };
+      this.teamStatsCache[team] = ret;
+      return ret;
     },
     teamWasAtEvent(teamNum, event) {
       return event in this.dataset.teams
@@ -242,6 +305,7 @@ export default {
     return {
       dataset,
       curPage: parseInt(this.$route.params.pageNum, 10),
+      teamStatsCache: {},
     };
   },
 };
