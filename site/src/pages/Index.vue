@@ -57,56 +57,63 @@
                   :key="team.team_number"
                   :to="`/team/${team.team_number}`"
                   exact>
-            <q-item-section avatar>
-              <q-avatar color="white" text-color="gray" font-size="0.9rem">
-                #{{ team.spot }}
-              </q-avatar>
-            </q-item-section>
-            <q-item-section avatar>
-              <q-avatar square color="blue" v-if="hasAvatar(team.team_number)">
-                <img :src="getAvatar(team.team_number)">
-              </q-avatar>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>FRC {{ team.team_number }} - {{ team.nickname }}</q-item-label>
-              <q-item-label caption>
-                {{ team.rank }} || {{ getWinLossTieString(team.team_number) }} ||
-                Played with {{ getTeamStats(team.team_number).uniqueTeams }} Teams
-              </q-item-label>
-              <q-item-label caption v-if="team.rookie_year === 2019">
-                <q-chip outline color="black">Rookie</q-chip>
-              </q-item-label>
-              <q-item-label caption v-if="team.rookie_year === 2018">
-                <q-chip outline color="black">2nd Year</q-chip>
-              </q-item-label>
-              <q-item-label caption
-                            v-if="teamInTop25(team.team_number)
-                            || isEinsteinTeam(team.team_number)
-                            || teamIsUndefeated(team.team_number)">
-                <template v-if="teamInTop25(team.team_number)">
-                  <q-chip v-for="(value, key) in getTop25Info(team.team_number)"
-                          :key="key"
-                          color="orange">
-                    {{ key === 'week1'
-                    ? 'FRC Top 25 Week One'
-                    : (key === 'week2')
-                    ? 'FRC Top 25 Week Two'
-                    : key}}
-                    #{{ value }}
-                  </q-chip>
-                </template>
-                <q-chip v-if="isEinsteinTeam(team.team_number)" color="green">
-                  Einstein ({{ getMostRecentYearOnEinstein(team.team_number) }})
-                </q-chip>
-                <q-chip v-if="teamIsUndefeated(team.team_number)"
-                        outline
-                        square
-                        icon="send"
-                        color="purple">
-                  UNDEFEATED
-                </q-chip>
-              </q-item-label>
-            </q-item-section>
+            <q-list dense>
+              <q-item>
+                <q-item-section avatar>
+                  <q-avatar color="white" text-color="gray" font-size="0.9rem">
+                    #{{ team.spot }}
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section avatar>
+                  <q-avatar square color="blue" v-if="hasAvatar(team.team_number)">
+                    <img :src="getAvatar(team.team_number)">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>FRC {{ team.team_number }} - {{ team.nickname }}</q-item-label>
+                  <q-item-label caption>
+                    {{ team.rank }} || {{ getWinLossTieString(team.team_number) }}
+                  </q-item-label>
+                  <q-item-label caption>
+                    Played with {{ getTeamStats(team.team_number).uniqueTeams }} Teams
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item v-if="hasBadges(team)">
+                <q-item-section>
+                  <div>
+                    <q-chip v-if="teamIsUndefeated(team.team_number)"
+                            outline
+                            square
+                            icon="send"
+                            color="purple">
+                      UNDEFEATED
+                    </q-chip>
+                    <template v-if="teamInTop25(team.team_number)">
+                      <q-chip v-for="(value, key) in getTop25Info(team.team_number)"
+                              :key="key"
+                              color="orange">
+                        {{ key === 'week1'
+                        ? 'FRCTop25 Week One'
+                        : (key === 'week2')
+                        ? 'FRCTop25 Week Two'
+                        : key}}
+                        #{{ value }}
+                      </q-chip>
+                    </template>
+                    <q-chip v-if="isEinsteinTeam(team.team_number)" color="green">
+                      Einstein {{ getMostRecentYearOnEinstein(team.team_number) }}
+                    </q-chip>
+                    <q-chip outline
+                            color="black"
+                            v-if="team.rookie_year === 2019">Rookie</q-chip>
+                    <q-chip outline
+                            color="black"
+                            v-if="team.rookie_year === 2018">2nd Year</q-chip>
+                  </div>
+                </q-item-section>
+              </q-item>
+            </q-list>
           </q-item>
         </q-list>
         <div class="q-pa-lg flex flex-center">
@@ -214,6 +221,13 @@ export default {
     },
   },
   methods: {
+    hasBadges(team) {
+      return this.teamInTop25(team.team_number)
+              || this.isEinsteinTeam(team.team_number)
+              || this.teamIsUndefeated(team.team_number)
+              || team.rookie_year === 2019
+              || team.rookie_year === 2018;
+    },
     hasAvatar(team) {
       return team in avatars;
     },
@@ -237,7 +251,7 @@ export default {
       return einstein.teamAndYears[team] || 0;
     },
     getWinLossTieString(team) {
-      return `${this.getTeamStats(team).wins}/${this.getTeamStats(team).losses}/${this.getTeamStats(team).ties}`;
+      return `${this.getTeamStats(team).wins}-${this.getTeamStats(team).losses}-${this.getTeamStats(team).ties}`;
     },
     getTeamStats(team) {
       if (team in this.teamStatsCache) {
