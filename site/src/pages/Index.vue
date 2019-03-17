@@ -45,7 +45,7 @@
         <q-toggle
           v-model="onlyWeekTwoTeams"
           color="green"
-          label="Only Week Two Teams"
+          label="Only Week Three Teams"
         />
       </div>
       <div class="q-pa-md" style="width: 100%; max-width: 5000px">
@@ -294,7 +294,7 @@ export default {
         .filter(team => team.team_number === teamNum)[0];
       let ret = false;
       teamInfo.eventsAttended.forEach((eventCode) => {
-        if (weeks.week2.includes(eventCode)) {
+        if (weeks.week3.includes(eventCode)) {
           ret = true;
         }
       });
