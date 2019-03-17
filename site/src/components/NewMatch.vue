@@ -84,7 +84,8 @@
             <q-item>
               <q-item-section>
                 <q-item-label>
-                  <b>{{ data.winner === 'red' ? 'Victory' : 'Defeat' }}</b>
+                  <b v-if="!isScheduledMatch">
+                    {{ data.winner === 'red' ? 'Victory' : 'Defeat' }}</b>
                   (Red Alliance)
                   (<b>{{ data.red_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
                 </q-item-label>
@@ -106,7 +107,8 @@
             <q-item>
               <q-item-section>
                 <q-item-label>
-                  <b>{{ data.winner === 'blue' ? 'Victory' : 'Defeat' }}</b>
+                  <b v-if="!isScheduledMatch">
+                    {{ data.winner === 'blue' ? 'Victory' : 'Defeat' }}</b>
                   (Blue Alliance)
                   (<b>{{ data.blue_win_probability.toLocaleString("en", {style: "percent"})}}</b>)
                 </q-item-label>
