@@ -190,7 +190,7 @@ export default {
           qualifies = qualifies && this.isEinsteinTeam(team.team_number);
         }
         if (this.onlyWeekTwoTeams) {
-          qualifies = qualifies && this.teamCompetedInWeekTwo(team.team_number);
+          qualifies = qualifies && this.teamCompetedInWeekTwo(team);
         }
         if (this.searchTerm !== '') {
           const teamNumberInSearchTerm = team.team_number.toString() === this.searchTerm;
@@ -226,11 +226,9 @@ export default {
         .filter(team => team.team_number === teamNum)[0]
         .eventsAttended;
     },
-    teamCompetedInWeekTwo(teamNum) {
-      const teamInfo = this.dataset.teams
-        .filter(team => team.team_number === teamNum)[0];
+    teamCompetedInWeekTwo(team) {
       let ret = false;
-      teamInfo.eventsAttended.forEach((eventCode) => {
+      team.eventsAttended.forEach((eventCode) => {
         if (weeks.week2.includes(eventCode)) {
           ret = true;
         }
