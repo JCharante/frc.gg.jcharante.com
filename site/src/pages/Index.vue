@@ -51,6 +51,8 @@
           v-model="filteredEvents"
           multiple
           :options="eventOptions"
+          option-value="id"
+          option-label="desc"
         />
       </div>
       <div class="q-pa-md" style="width: 100%; max-width: 5000px">
@@ -148,6 +150,13 @@ import weeks from 'assets/weeks.json';
 export default {
   name: 'PageIndex',
   computed: {
+    eventOptions() {
+      return Object.entries(extra.eventNicknames)
+        .map(ar => ({
+          id: ar[0],
+          desc: ar[1],
+        }));
+    },
     filteredEvents: {
       get() {
         return this.$store.state.filter.filteredEvents;
@@ -331,7 +340,6 @@ export default {
       dataset,
       curPage: parseInt(this.$route.params.pageNum, 10),
       teamStatsCache: {},
-      eventOptions: ['2019nhgrs'],
     };
   },
 };
