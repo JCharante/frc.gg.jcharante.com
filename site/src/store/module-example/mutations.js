@@ -18,3 +18,7 @@ export function setOnlyWeekTwoTeams(state, bool) {
 export function setSearchTerm(state, term) {
   state.searchTerm = term;
 }
+
+export function setFilteredEvents(state, filteredEvents) {
+  state.filteredEvents = filteredEvents;
+}

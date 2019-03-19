@@ -47,6 +47,11 @@
           color="green"
           label="Only Week Three Teams"
         />
+        <q-select
+          v-model="filteredEvents"
+          multiple
+          :options="eventOptions"
+        />
       </div>
       <div class="q-pa-md" style="width: 100%; max-width: 5000px">
         <q-list bordered separator>
@@ -143,6 +148,14 @@ import weeks from 'assets/weeks.json';
 export default {
   name: 'PageIndex',
   computed: {
+    filteredEvents: {
+      get() {
+        return this.$store.state.filter.filteredEvents;
+      },
+      set(val) {
+        return this.$store.commit('filter/setFilteredEvents', val);
+      },
+    },
     searchTerm: {
       get() {
         return this.$store.state.filter.searchTerm;
@@ -318,6 +331,7 @@ export default {
       dataset,
       curPage: parseInt(this.$route.params.pageNum, 10),
       teamStatsCache: {},
+      eventOptions: ['2019nhgrs'],
     };
   },
 };

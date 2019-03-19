@@ -17,3 +17,7 @@ export function searchTerm(state) {
 export function onlyWeekTwoTeams(state) {
   return state.onlyWeekTwoTeams;
 }
+
+export function filteredEvents(state) {
+  return state.filteredEVents;
+}

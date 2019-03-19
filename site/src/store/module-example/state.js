@@ -4,4 +4,5 @@ export default {
   onlyRookies: false,
   onlyWeekTwoTeams: false,
   searchTerm: '',
+  filteredEvents: [],
 };
