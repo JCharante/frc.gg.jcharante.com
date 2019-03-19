@@ -215,7 +215,8 @@ export default {
         && !this.onlyRookies
         && !this.onlyFRCTop25
         && !this.onlyWeekTwoTeams
-        && !this.onlyEinsteinTeams) {
+        && !this.onlyEinsteinTeams
+        && this.filteredEvents.length === 0) {
         return LOT;
       }
       return LOT.filter((team) => {
@@ -231,6 +232,11 @@ export default {
         }
         if (this.onlyWeekTwoTeams) {
           qualifies = qualifies && this.teamCompetedInWeekTwo(team);
+        }
+        if (this.filteredEvents.length > 0) {
+          const filteredEvents = this.filteredEvents.map(o => o.id);
+          const intersectionOfEvents = filteredEvents.filter(v => team.eventsAttended.includes(v));
+          qualifies = qualifies && intersectionOfEvents.length > 0;
         }
         if (this.searchTerm !== '') {
           const teamNumberInSearchTerm = team.team_number.toString() === this.searchTerm;
