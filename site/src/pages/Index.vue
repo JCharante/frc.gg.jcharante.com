@@ -11,7 +11,7 @@
           Matches. Predicting {{ dataset.numMatchesPredicting }} Matches.</p>
       </div>
       <div class="row justify-center">
-        <p>Data as of {{ dataset.asOf || "unknown" }}</p>
+        <p>Data as of {{ dataset.asOf || "unknown" }} EDT</p>
       </div>
       <div class="row flex flex-center">
         <p>Ever wanted op.gg but for FRC? No?
@@ -45,7 +45,7 @@
         <q-toggle
           v-model="onlyWeekTwoTeams"
           color="green"
-          label="Only Week Two Teams"
+          label="Only Week Three Teams"
         />
       </div>
       <div class="q-pa-md" style="width: 100%; max-width: 5000px">
@@ -57,45 +57,63 @@
                   :key="team.team_number"
                   :to="`/team/${team.team_number}`"
                   exact>
-            <q-item-section avatar>
-              <q-avatar color="white" text-color="gray" font-size="0.9rem">
-                #{{ team.spot }}
-              </q-avatar>
-            </q-item-section>
-            <q-item-section avatar>
-              <q-avatar square color="blue" v-if="hasAvatar(team.team_number)">
-                <img :src="getAvatar(team.team_number)">
-              </q-avatar>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>FRC {{ team.team_number }} - {{ team.nickname }}</q-item-label>
-              <q-item-label caption>{{ team.rank }}</q-item-label>
-              <q-item-label caption v-if="team.rookie_year === 2019">
-                <q-chip outline color="black">Rookie</q-chip>
-              </q-item-label>
-              <q-item-label caption v-if="team.rookie_year === 2018">
-                <q-chip outline color="black">2nd Year</q-chip>
-              </q-item-label>
-              <q-item-label caption
-                            v-if="teamInTop25(team.team_number)
-                            || isEinsteinTeam(team.team_number)">
-                <template v-if="teamInTop25(team.team_number)">
-                  <q-chip v-for="(value, key) in getTop25Info(team.team_number)"
-                          :key="key"
-                          color="orange">
-                    {{ key === 'week1'
-                    ? 'FRC Top 25 Week One'
-                    : (key === 'week2')
-                    ? 'FRC Top 25 Week Two'
-                    : key}}
-                    #{{ value }}
-                  </q-chip>
-                </template>
-                <q-chip v-if="isEinsteinTeam(team.team_number)" color="green">
-                  Einstein ({{ getMostRecentYearOnEinstein(team.team_number) }})
-                </q-chip>
-              </q-item-label>
-            </q-item-section>
+            <q-list dense>
+              <q-item>
+                <q-item-section avatar>
+                  <q-avatar color="white" text-color="gray" font-size="0.9rem">
+                    #{{ team.spot }}
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section avatar>
+                  <q-avatar square color="blue" v-if="hasAvatar(team.team_number)">
+                    <img :src="getAvatar(team.team_number)">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>FRC {{ team.team_number }} - {{ team.nickname }}</q-item-label>
+                  <q-item-label caption>
+                    {{ team.rank }} || {{ getWinLossTieString(team.team_number) }}
+                  </q-item-label>
+                  <q-item-label caption>
+                    Played with {{ getTeamStats(team.team_number).uniqueTeams }} Teams
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item v-if="hasBadges(team)">
+                <q-item-section>
+                  <div>
+                    <q-chip v-if="teamIsUndefeated(team.team_number)"
+                            outline
+                            square
+                            icon="send"
+                            color="purple">
+                      UNDEFEATED
+                    </q-chip>
+                    <template v-if="teamInTop25(team.team_number)">
+                      <q-chip v-for="(value, key) in getTop25Info(team.team_number)"
+                              :key="key"
+                              color="orange">
+                        {{ key === 'week1'
+                        ? 'FRCTop25 Week One'
+                        : (key === 'week2')
+                        ? 'FRCTop25 Week Two'
+                        : key}}
+                        #{{ value }}
+                      </q-chip>
+                    </template>
+                    <q-chip v-if="isEinsteinTeam(team.team_number)" color="green">
+                      Einstein {{ getMostRecentYearOnEinstein(team.team_number) }}
+                    </q-chip>
+                    <q-chip outline
+                            color="black"
+                            v-if="team.rookie_year === 2019">Rookie</q-chip>
+                    <q-chip outline
+                            color="black"
+                            v-if="team.rookie_year === 2018">2nd Year</q-chip>
+                  </div>
+                </q-item-section>
+              </q-item>
+            </q-list>
           </q-item>
         </q-list>
         <div class="q-pa-lg flex flex-center">
@@ -203,6 +221,13 @@ export default {
     },
   },
   methods: {
+    hasBadges(team) {
+      return this.teamInTop25(team.team_number)
+              || this.isEinsteinTeam(team.team_number)
+              || this.teamIsUndefeated(team.team_number)
+              || team.rookie_year === 2019
+              || team.rookie_year === 2018;
+    },
     hasAvatar(team) {
       return team in avatars;
     },
@@ -218,8 +243,60 @@ export default {
     isEinsteinTeam(team) {
       return team in einstein.teamAndYears;
     },
+    teamIsUndefeated(team) {
+      const stats = this.getTeamStats(team);
+      return stats.losses === 0 && (stats.wins + stats.ties) > 0;
+    },
     getMostRecentYearOnEinstein(team) {
       return einstein.teamAndYears[team] || 0;
+    },
+    getWinLossTieString(team) {
+      return `${this.getTeamStats(team).wins}-${this.getTeamStats(team).losses}-${this.getTeamStats(team).ties}`;
+    },
+    getTeamStats(team) {
+      if (team in this.teamStatsCache) {
+        return this.teamStatsCache[team];
+      }
+      let wins = 0;
+      let losses = 0;
+      let ties = 0;
+      const uniqueTeams = [];
+      this.dataset.team_history[team]
+        .map(key => this.dataset.matchesDict[key])
+        .filter(match => match.status === 'completed')
+        .forEach((match) => {
+          let protagonistTeam = null;
+          if (match.red0.team === team || match.red1.team === team || match.red2.team === team) {
+            protagonistTeam = 'red';
+          }
+          if (match.blue0.team === team || match.blue1.team === team || match.blue2.team === team) {
+            protagonistTeam = 'blue';
+          }
+          if (match.status === 'completed') {
+            if (match.winner === '') {
+              ties += 1;
+            } else if (match.winner === protagonistTeam) {
+              wins += 1;
+            } else {
+              losses += 1;
+            }
+          }
+          [match.red0, match.red1, match.red2, match.blue0, match.blue1, match.blue2]
+            .filter(t => t.team !== team)
+            .forEach((t) => {
+              if (!uniqueTeams.includes(t.team)) {
+                uniqueTeams.push(t.team);
+              }
+            });
+        });
+      const ret = {
+        uniqueTeams: uniqueTeams.length,
+        wins,
+        losses,
+        ties,
+      };
+      this.teamStatsCache[team] = ret;
+      return ret;
     },
     teamWasAtEvent(teamNum, event) {
       return event in this.dataset.teams
@@ -229,7 +306,7 @@ export default {
     teamCompetedInWeekTwo(team) {
       let ret = false;
       team.eventsAttended.forEach((eventCode) => {
-        if (weeks.week2.includes(eventCode)) {
+        if (weeks.week3.includes(eventCode)) {
           ret = true;
         }
       });
@@ -240,6 +317,7 @@ export default {
     return {
       dataset,
       curPage: parseInt(this.$route.params.pageNum, 10),
+      teamStatsCache: {},
     };
   },
 };

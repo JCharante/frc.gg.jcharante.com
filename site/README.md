@@ -1,5 +1,7 @@
 # Quasar App
 
+while sleep 200; do make deploy && make invalidate; done;
+
 > WIP
 
 ## avatars
