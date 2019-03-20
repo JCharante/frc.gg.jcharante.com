@@ -47,13 +47,16 @@
           color="green"
           label="Only Week Three Teams"
         />
-        <q-select
-          v-model="filteredEvents"
-          multiple
-          :options="eventOptions"
-          option-value="id"
-          option-label="desc"
-        />
+        <div style="width: 100%">
+          <q-select
+            v-model="filteredEvents"
+            multiple
+            :options="eventOptions"
+            option-value="id"
+            option-label="desc"
+            label="Show only from these events"
+          />
+        </div>
       </div>
       <div class="q-pa-md" style="width: 100%; max-width: 5000px">
         <q-list bordered separator>
