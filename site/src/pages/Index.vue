@@ -101,11 +101,11 @@
                               :key="key"
                               color="orange">
                         {{ key === 'week1'
-                        ? 'FRCTop25 Week One'
+                        ? 'Top25 W1'
                         : (key === 'week2')
-                        ? 'FRCTop25 Week Two'
+                        ? 'Top25 W2'
                         : (key === 'week3')
-                        ? 'FRCTop25 Week Three'
+                        ? 'Top25 W3'
                         : key}}
                         #{{ value }}
                       </q-chip>
