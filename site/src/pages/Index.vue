@@ -104,6 +104,8 @@
                         ? 'FRCTop25 Week One'
                         : (key === 'week2')
                         ? 'FRCTop25 Week Two'
+                        : (key === 'week3')
+                        ? 'FRCTop25 Week Three'
                         : key}}
                         #{{ value }}
                       </q-chip>
