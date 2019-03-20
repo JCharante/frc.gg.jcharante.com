@@ -104,11 +104,11 @@
                               :key="key"
                               color="orange">
                         {{ key === 'week1'
-                        ? 'Top25 W1'
+                        ? ($q.screen.gt.xs ? 'FRC Top 25 Week 1' : 'Top25 W1')
                         : (key === 'week2')
-                        ? 'Top25 W2'
+                        ? ($q.screen.gt.xs ? 'FRC Top 25 Week 2' : 'Top25 W2')
                         : (key === 'week3')
-                        ? 'Top25 W3'
+                        ? ($q.screen.gt.xs ? 'FRC Top 25 Week 3' : 'Top25 W3')
                         : key}}
                         #{{ value }}
                       </q-chip>
