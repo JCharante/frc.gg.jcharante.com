@@ -45,7 +45,7 @@
         <q-toggle
           v-model="onlyWeekTwoTeams"
           color="green"
-          label="Only Week Four Teams"
+          label="Only Week Five Teams"
         />
         <div style="width: 100%">
           <q-select
@@ -341,7 +341,7 @@ export default {
     teamCompetedInWeekTwo(team) {
       let ret = false;
       team.eventsAttended.forEach((eventCode) => {
-        if (weeks.week4.includes(eventCode)) {
+        if (weeks.week5.includes(eventCode)) {
           ret = true;
         }
       });
