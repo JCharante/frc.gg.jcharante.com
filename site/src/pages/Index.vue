@@ -111,6 +111,8 @@
                         ? ($q.screen.gt.xs ? 'FRC Top 25 Week 3' : 'Top25 W3')
                         : (key === 'week4' )
                         ? ($q.screen.gt.xs ? 'FRC Top 25 Week 4' : 'Top25 W4')
+                        : (key === 'week5')
+                        ? ($q.screen.gt.xs ? 'FRC Top 25 Week 5': 'Top25 W5')
                         : key}}
                         #{{ value }}
                       </q-chip>
