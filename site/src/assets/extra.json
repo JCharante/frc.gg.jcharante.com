@@ -167,7 +167,18 @@
     "2019cthar": "NE District Hartford Event",
     "2019nccmp": "FIRST North Carolina State Championship",
     "2019onham": "ONT District McMaster University Event",
-    "2019onlon": "ONT District Western University, Western Engineering Event"
+    "2019onlon": "ONT District Western University, Western Engineering Event",
+    "2019chcmp": "FIRST Chesapeake District Championship",
+    "2019micmp": "Michigan State Championship",
+    "2019micmp1": "Michigan State Championship - DTE Energy Foundation Division",
+    "2019micmp2": "Michigan State Championship - Consumers Energy Division",
+    "2019micmp3": "Michigan State Championship - Ford Division",
+    "2019micmp4": "Michigan State Championship - Dow Division",
+    "2019necmp": "New England District Championship",
+    "2019oncmp": "FIRST Ontario Provincial Championship",
+    "2019oncmp1": "FIRST Ontario Provincial Championship - Science Division",
+    "2019oncmp2": "FIRST Ontario Provincial Championship - Technology Division",
+    "2019incmp": "Indiana State Championship"
   },
   "top25": {
     "118": {
