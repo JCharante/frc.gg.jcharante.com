@@ -178,7 +178,21 @@
     "2019oncmp": "FIRST Ontario Provincial Championship",
     "2019oncmp1": "FIRST Ontario Provincial Championship - Science Division",
     "2019oncmp2": "FIRST Ontario Provincial Championship - Technology Division",
-    "2019incmp": "Indiana State Championship"
+    "2019incmp": "Indiana State Championship",
+    "2019carv": "Carver Division",
+    "2019gal": "Galileo Division",
+    "2019hop": "Hopper Division",
+    "2019new": "Newton Division",
+    "2019roe": "Roebling Division",
+    "2019tur": "Turing Division",
+    "2019cmptx": "Einstein Field (Houston)",
+    "2019arc": "Archimedes Division",
+    "2019cars": "Carson Division",
+    "2019cur": "Curie Division",
+    "2019dal": "Daly Division",
+    "2019dar": "Darwin Division",
+    "2019tes": "Tesla Division",
+    "2019cmpmi": "Einstein Field (Detroit)"
   },
   "top25": {
     "118": {
