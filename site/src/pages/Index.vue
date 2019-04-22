@@ -164,7 +164,7 @@ export default {
         .map(ar => ({
           id: ar[0],
           desc: ar[1],
-        }));
+        })).reverse();
     },
     filteredEvents: {
       get() {
